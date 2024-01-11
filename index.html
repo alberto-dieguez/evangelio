@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Evangelio diário</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="evangelio" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload" >
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section class="intro">
+						<header style="text-align: center;">
+							<h1>Evangelio</h1>
+							<h2 id="date"></h2>
+							<h3 id="evangelio_nombre"></h3>
+							</ul>
+						</header>
+					</section>
+				<!-- Section -->
+					<section id="first" style="display: block;">
+						<!-- <iframe type="text/plain" id="idIframe" scrolling="no" width="100%" style="min-height:250vh" src='https://evangeli.net/evangelio/widget/web'></iframe> -->
+					</section>
+					<!-- Audio, no se escucha en Android -->
+		<div id="btn" style="width: 100%;background-color: bisque;text-align: center;"></div>
+					<p id="evangelio"></p>
+
+					<div id="test" style="text-align: center;"><h2 style="color: #e7273a;font-size: 3em;">Reflexión</h2></div>
+			
+					<p id="reflexion"></p>
+		
+					<div id="test" style="text-align: center;"><h1>Fin</h1></div>
+				
+			</div>
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			
+			<script>
+				
+				document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+
+				$.ajax({
+					url: 'https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/',
+					dataType: 'text',
+					type: "GET",
+					cache: true,
+					data: {
+					},
+					success: function (result) {
+						let evengelio_nombre_match = result.match(/Lectura del santo evangelio según(.*?)\"/)[0]; 
+						const evengelio_nombre = evengelio_nombre_match.slice(0,-1); 
+						document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
+
+						let lecturas_match = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<a name=\"/)[0]; 
+						const lecturas = lecturas_match.slice(0,-1); 
+						document.getElementById("evangelio").innerHTML = lecturas;
+
+							//Escuchar Lectura
+							var x = document.createElement("BUTTON");
+							var t = document.createTextNode("Escucha");
+							var y = document.createTextNode("Pausa");
+							x.style.backgroundColor = "#f3f3f3";
+							x.appendChild(t);
+							btn = document.getElementById("btn");
+							btn.appendChild(x);
+							x.onclick = function () {
+									myFunction(lecturas)
+							};
+
+
+							function myFunction(lecturas) {
+								const synth = window.speechSynthesis;
+								const utterThis = new SpeechSynthesisUtterance(lecturas);
+								utterThis.lang = 'es-ES';
+								synth.speak(utterThis);
+							
+								if (!document.getElementById("btn").innerHTML.match(/Pausa/)) {
+									x.appendChild(y)
+									x.removeChild(t)
+									synth.resume();
+								}else {
+									synth.pause()
+									x.appendChild(t)
+									x.removeChild(y)
+							
+								}	
+							}
+
+					
+						//------------------------------------------
+
+						let reflexion_match = result.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/)[0]; 
+						reflexion = reflexion_match.slice(0,-1); 
+						document.getElementById("reflexion").innerHTML = reflexion;
+					
+
+						// console.log(result);
+						
+					},
+					error: function () {
+						console.log("error");
+					}
+				});
+
+			</script>
+			
+<style>
+
+
+
+#evangelio, #reflexion{
+	background-color: white;
+	text-align: center;
+	padding: 15px 5px 5px 5px;
+	color: black;
+	font-family: Verdana, sans-serif;
+	/* font-size: 5vw; */
+	line-height: 1.2em;
+
+	text-align: center;
+
+}
+
+*
+html{overflow:scroll!important;}
+</style>
+
+	</body>
+</html>

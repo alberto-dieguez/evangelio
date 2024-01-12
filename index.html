@@ -28,7 +28,7 @@
 						<!-- <iframe type="text/plain" id="idIframe" scrolling="no" width="100%" style="min-height:250vh" src='https://evangeli.net/evangelio/widget/web'></iframe> -->
 					</section>
 					<!-- Audio, no se escucha en Android -->
-		<div id="btn" style="width: 100%;background-color: bisque;text-align: center;"></div>
+		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span id="btnp"></span></div>
 					<p id="evangelio"></p>
 
 					<div id="test" style="text-align: center;"><h2 style="color: #e7273a;font-size: 3em;">Reflexión</h2></div>
@@ -67,33 +67,59 @@
 						document.getElementById("evangelio").innerHTML = lecturas;
 
 							//Escuchar Lectura
+
+
+
 							var x = document.createElement("BUTTON");
-							var t = document.createTextNode("Escucha");
-							var y = document.createTextNode("Pausa");
+							var t = document.createTextNode("Escuchar");
+							var y = document.createTextNode("Pausar");
 							x.style.backgroundColor = "#f3f3f3";
 							x.appendChild(t);
 							btn = document.getElementById("btn");
 							btn.appendChild(x);
 							x.onclick = function () {
-									myFunction(lecturas)
+								lecturas_no_tag = new String(lecturas).replaceAll("<h1>","").replaceAll("<h2>","").replaceAll("</h2>"," ").replaceAll("<h3>","").replaceAll("</h3>"," ").replaceAll("<p>","").replaceAll("</p>"," ").replaceAll("<h2>","").replaceAll("R/","").replaceAll("<br/>","").replaceAll("<a name=","");
+								myFunction(lecturas)
 							};
-
 
 							function myFunction(lecturas) {
 								const synth = window.speechSynthesis;
-								const utterThis = new SpeechSynthesisUtterance(lecturas);
+								const utterThis = new SpeechSynthesisUtterance(lecturas_no_tag);
 								utterThis.lang = 'es-ES';
 								synth.speak(utterThis);
-							
-								if (!document.getElementById("btn").innerHTML.match(/Pausa/)) {
-									x.appendChild(y)
-									x.removeChild(t)
+								if (!document.getElementById("btn").innerHTML.match(/Pausar/)) {
+									x.appendChild(y);
+									x.removeChild(t);
 									synth.resume();
+
+									if (document.getElementById("btnp").innerHTML.match(/Iniciar/)) {
+										btnp.style.display = "inline";
+									}else{
+										var p = document.createElement("BUTTON");
+										var o = document.createTextNode("Iniciar reproducción");
+										p.style.backgroundColor = "#f3f3f3";
+										p.appendChild(o);
+										btnp = document.getElementById("btnp");
+										btnp.appendChild(p);
+										p.onclick = function () {
+										synth.cancel()
+										synth.speak(utterThis);
+							};
+									}
+
+			
+
 								}else {
 									synth.pause()
-									x.appendChild(t)
-									x.removeChild(y)
-							
+									x.appendChild(t);
+									x.removeChild(y);
+									btnp.style.display = "none";
+								
+									
+
+
+
+
 								}	
 							}
 
@@ -116,8 +142,6 @@
 			</script>
 			
 <style>
-
-
 
 #evangelio, #reflexion{
 	background-color: white;

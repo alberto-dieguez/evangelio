@@ -3398,7 +3398,7 @@ input, select, textarea {
 		}
 
 			#wrapper section > header {
-				padding: 0 10rem 0 5rem;
+				/* padding: 0 10rem 0 5rem; */
 				width: 35rem;
 			}
 
@@ -3484,7 +3484,7 @@ input, select, textarea {
 					}
 
 				#wrapper > section > header:before {
-					height: calc(100% + 8rem);
+					/* height: calc(100% + 8rem); */
 					left: calc(50vw - 4rem);
 				}
 
@@ -3651,8 +3651,8 @@ input, select, textarea {
 							}
 
 							#wrapper > section.intro > header > * {
-								margin-left: 0;
-								margin-right: 0;
+								margin-left: auto;
+								margin-right: auto;
 								width: 100%;
 							}
 

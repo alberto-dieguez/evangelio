@@ -1,19 +1,20 @@
 <!DOCTYPE HTML>
 
-<html>
+<html translate="no">
 	<head>
 		<title>Evangelio diário</title>
+		<meta name="google" content="notranslate">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="evangelio" />
+		<link rel="icon" type="image/x-icon" href="images/evangelio.png">
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload" >
 
 		<!-- Wrapper -->
 			<div id="wrapper">
-
 				<!-- Intro -->
 					<section class="intro">
 						<header style="text-align: center;">
@@ -28,13 +29,10 @@
 						<!-- <iframe type="text/plain" id="idIframe" scrolling="no" width="100%" style="min-height:250vh" src='https://evangeli.net/evangelio/widget/web'></iframe> -->
 					</section>
 					<!-- Audio, no se escucha en Android -->
-		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span id="btnp"></span></div>
+		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span id="btnp"></span> </button> </div>
 					<p id="evangelio"></p>
-
 					<div id="test" style="text-align: center;"><h2 style="color: #e7273a;font-size: 3em;">Reflexión</h2></div>
-			
 					<p id="reflexion"></p>
-		
 					<div id="test" style="text-align: center;"><h1>Fin</h1></div>
 				
 			</div>
@@ -47,11 +45,31 @@
 			<script src="assets/js/main.js"></script>
 			
 			<script>
+				const day_today = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+				const day = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+				const day_short =  (new Date()).toISOString().split('T')[0];
+			
 				
-				document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
 
+// Crear un objeto Date a partir del string
+const fecha = new Date(day_short);
+
+// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
+const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
+const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
+var fechaFinal = fechaFormateada.replace(/\//g, "-");
+
+				if (day.match(/domingo/)) {
+					lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal+"/lecturas/";
+					if (day == day_today) {
+						lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
+					}
+				}else{
+					lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal+"/";
+				}
+				
 				$.ajax({
-					url: 'https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/',
+					url: lecturas_url,
 					dataType: 'text',
 					type: "GET",
 					cache: true,
@@ -61,21 +79,23 @@
 						let evengelio_nombre_match = result.match(/Lectura del santo evangelio según(.*?)\"/)[0]; 
 						const evengelio_nombre = evengelio_nombre_match.slice(0,-1); 
 						document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-
-						let lecturas_match = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<a name=\"/)[0]; 
-						const lecturas = lecturas_match.slice(0,-1); 
-						document.getElementById("evangelio").innerHTML = lecturas;
-
+						if (day.match(/domingo/)) {
+							let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];
+							lecturas = lecturas_match1.slice(0,-1); 
+							document.getElementById("evangelio").innerHTML = lecturas;
+						}else{
+							let lecturas_match = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<a name=\"/)[0]; 
+							lecturas = lecturas_match.slice(0,-1); 
+							document.getElementById("evangelio").innerHTML = lecturas;
+						}
 							//Escuchar Lectura
-
-
-
 							var x = document.createElement("BUTTON");
 							var t = document.createTextNode("Escuchar");
 							var y = document.createTextNode("Pausar");
 							x.style.backgroundColor = "#f3f3f3";
 							x.appendChild(t);
 							btn = document.getElementById("btn");
+							
 							btn.appendChild(x);
 							x.onclick = function () {
 								lecturas_no_tag = new String(lecturas).replaceAll("<h1>","").replaceAll("<h2>","").replaceAll("</h2>"," ").replaceAll("<h3>","").replaceAll("</h3>"," ").replaceAll("<p>","").replaceAll("</p>"," ").replaceAll("<h2>","").replaceAll("R/","").replaceAll("<br/>","").replaceAll("<a name=","");
@@ -106,33 +126,41 @@
 										synth.speak(utterThis);
 							};
 									}
-
-			
-
 								}else {
 									synth.pause()
 									x.appendChild(t);
 									x.removeChild(y);
 									btnp.style.display = "none";
-								
-									
-
-
-
-
 								}	
 							}
 
-					
-						//------------------------------------------
+						if (day.match(/domingo/)) {
 
+							reflexion_domingos = "https://www.dominicos.org/predicacion/homilia/"+fechaFinal+"/pautas/";
+
+							$.ajax({
+								url: reflexion_domingos,
+								dataType: 'text',
+								type: "GET",
+								cache: true,
+								data: {
+								},
+								success: function (result1) {
+									console.log(result1)
+									let reflexion_match = result1.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/)[0]; 
+									reflexion = reflexion_match.slice(0,-1); 
+									document.getElementById("reflexion").innerHTML = reflexion;
+								},
+								error: function () {
+									console.log("error");
+								}
+							});
+
+						}else{
 						let reflexion_match = result.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/)[0]; 
 						reflexion = reflexion_match.slice(0,-1); 
 						document.getElementById("reflexion").innerHTML = reflexion;
-					
-
-						// console.log(result);
-						
+						}
 					},
 					error: function () {
 						console.log("error");

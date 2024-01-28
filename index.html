@@ -25,13 +25,13 @@
 						</header>
 					</section>
 				<!-- Section -->
-					<section id="first" style="display: block;">
-						<!-- <iframe type="text/plain" id="idIframe" scrolling="no" width="100%" style="min-height:250vh" src='https://evangeli.net/evangelio/widget/web'></iframe> -->
+					<section id="first" style="display: block;width: 100%;background-color:beige;text-align: center;padding-top: 1%;padding-bottom:1%;" >
+						<input type="date" id="fecha_calendar" value=""></input><button style="background-color: rgb(243, 243, 243); margin-left: 10%;" onclick="buscarEvangelio()">Buscar</button>
 					</section>
 					<!-- Audio, no se escucha en Android -->
-		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span id="btnp"></span> </button> </div>
+		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span id="btnp"></span></div>
 					<p id="evangelio"></p>
-					<div id="test" style="text-align: center;"><h2 style="color: #e7273a;font-size: 3em;">Reflexión</h2></div>
+					<div id="test" style="text-align: center;"><h2 style="color: #e7273a;font-size: 3em;background-color: white;">Reflexión</h2></div>
 					<p id="reflexion"></p>
 					<div id="test" style="text-align: center;"><h1>Fin</h1></div>
 				
@@ -45,30 +45,147 @@
 			<script src="assets/js/main.js"></script>
 			
 			<script>
-				const day_today = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
-				const day = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
-				const day_short =  (new Date()).toISOString().split('T')[0];
+
+// Definir la función esDomingo
+function esDomingo(fecha_format) {
+
+// Crear un objeto Date a partir de la cadena de fecha
+var dateParts = fecha_format.split("-");
+// Obtener los componentes de la fecha
+var dia = dateParts[0]
+var mes = dateParts[1]
+var anio = dateParts[2]
+
+// Crear una cadena de fecha en el formato deseado
+var fecha_format_1 = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]); 
+  if (fecha_format_1 instanceof Date && !isNaN(fecha_format_1)) {
+    // Obtener el día de la semana como un número
+    var dia = fecha_format_1.getDay();
+    // Devolver el valor booleano de si el día es domingo o no
+    return dia == 0;
+  } else {
+    // Devolver un mensaje de error si el parámetro no es una fecha válida
+    return "El parámetro no es una fecha válida";
+  }
+}
+
+// const day_today = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+const day_today_short_1 =  (new Date()).toLocaleDateString("es-ES", { timeZone: 'Europe/Madrid' }).split('T')[0];
+day_today_short = day_today_short_1.replaceAll("/","-");
+// var fecha_calendar = document.getElementById("fecha_calendar");
+var day_today_1 = new Date().toLocaleDateString("es-ES", { timeZone: 'Europe/Madrid' });
+var day_today = day_today_1.replaceAll("/","-");
+
+var selectDate = document.getElementById("fecha_calendar").value;
+
+if (selectDate == "" && esDomingo(day_today))  {
+	const fecha_pattern_1 = new Date(day_today_short);
+	// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
+	const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
+	const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", opciones);
+
+	var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
+	lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
+	putLecturas(lecturas_url);
+
+}
+if (selectDate == "" && !esDomingo(day_today)) {
+	// const fecha_pattern_1 = new Date(day_today_short);
+	// console.log(day_today_short);
+	// // Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
+	// const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
+	// const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", 'es-ES', { timeZone: 'Europe/Madrid' });
+	// var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
+	selectDate_1 = fechaFinal_1;
+	selectDate_2 = day_today_short;
+	lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+day_today_short+"/";
+	putLecturas(lecturas_url);
+	
+}
+
+
+
+function buscarEvangelio() {
+		fecha_calendar_1 = document.getElementById("fecha_calendar").value;
+	
+		var dateParts = fecha_calendar_1.split("-");
+		// Obtener los componentes de la fecha
+		var dia = dateParts[2]
+		var mes = dateParts[1]
+		var anio = dateParts[0]
+		// Crear una cadena de fecha en el formato deseado
+		var fecha_format_2 = dia + "-" + mes + "-" + anio;
+	if (fecha_calendar_1 != "" && esDomingo(fecha_format_2)) {
+		lecturas_url = "https://www.dominicos.org/predicacion/homilia/"+fecha_format_2+"/lecturas/";
+			putLecturas(lecturas_url);
+	}
+
+
+	if (fecha_calendar_1 != "" && !esDomingo(fecha_format_2)) {
+		if (fecha_calendar_1.match(/01-01/)) {
+			lecturas_url = "https://www.dominicos.org/predicacion/homilia/"+fecha_format_2+"/lecturas/";
+			putLecturas(lecturas_url);
+		}
+		lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fecha_format_2+"/";
+		putLecturas(lecturas_url);
+}
+	
+
+}
+
+
+// // Definir la función buscarEvangelio
+// function buscarEvangelio() {
+//   // Obtener el elemento input por su id
+//   var input = document.getElementById("fecha");
+//   // Obtener el valor del input, que es una fecha en formato yyyy-mm-dd
+//   var fecha = input.value;
+//   // Formatear la fecha como una cadena en formato dd-mm-yyyy
+//   var fechaFinal = fecha.split("-").reverse().join("-");
+//   // Construir la url de la página web que muestra el evangelio, usando la fecha formateada
+
+//   // Abrir la url en una nueva pestaña del navegador
+//   const day_today = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+// 				const day = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
+// 				const day_short =  (new Date()).toISOString().split('T')[0];
 			
 				
 
-// Crear un objeto Date a partir del string
-const fecha = new Date(day_short);
+// // Crear un objeto Date a partir del string
+// const fecha = new Date(day_short);
 
-// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
-const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
-const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
-var fechaFinal = fechaFormateada.replace(/\//g, "-");
+// // Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
+// const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
+// const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
+// var fechaFinal = fechaFormateada.replace(/\//g, "-");
 
-				if (day.match(/domingo/)) {
-					lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal+"/lecturas/";
-					if (day == day_today) {
-						lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
-					}
-				}else{
-					lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal+"/";
-				}
+
+
+
+//   console.log(fechaFinal)
+// }
+
+
+
+
+
+
+
+
+
+
+
+				// if (day_today.match(/domingo/)) {
+				// 	lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal_1+"/lecturas/";
+				// 	if (day_today == day_today) {
+				// 		lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
+				// 	}
+				// }else{
+				// 	lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/"+fechaFinal_1+"/";
+				// }
 				
-				$.ajax({
+		function putLecturas(lecturas_url) {
+			$.ajax({
 					url: lecturas_url,
 					dataType: 'text',
 					type: "GET",
@@ -76,10 +193,27 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 					data: {
 					},
 					success: function (result) {
-						let evengelio_nombre_match = result.match(/Lectura del santo evangelio según(.*?)\"/)[0]; 
-						const evengelio_nombre = evengelio_nombre_match.slice(0,-1); 
+			
+						fecha_calendar_1 = document.getElementById("fecha_calendar").value;
+								var dateParts = fecha_calendar_1.split("-");
+		// Obtener los componentes de la fecha
+		var dia = dateParts[2]
+		var mes = dateParts[1]
+		var anio = dateParts[0]
+		// Crear una cadena de fecha en el formato deseado
+		var fecha_format_2 = dia + "-" + mes + "-" + anio;
+		
+						if (fecha_calendar_1 && esDomingo(fecha_format_2) ) {
+							hayfecha = esDomingo(fecha_calendar_1);
+						}else{
+							hayfecha = false
+						}
+						evengelio_nombre_match = result.match(/Lectura del santo [Ee]vangelio según(.*?)\"/)[0];
+						evengelio_nombre = evengelio_nombre_match.slice(0,-1); 
 						document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-						if (day.match(/domingo/)) {
+		
+						if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || day_today_short_1.match(/01-01/) || fecha_calendar_1.match(/01-01/)) {
+							console.log()
 							let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];
 							lecturas = lecturas_match1.slice(0,-1); 
 							document.getElementById("evangelio").innerHTML = lecturas;
@@ -88,6 +222,7 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 							lecturas = lecturas_match.slice(0,-1); 
 							document.getElementById("evangelio").innerHTML = lecturas;
 						}
+						if (!document.getElementById("btn").innerHTML.match(/Escuchar/)) {
 							//Escuchar Lectura
 							var x = document.createElement("BUTTON");
 							var t = document.createTextNode("Escuchar");
@@ -101,6 +236,8 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 								lecturas_no_tag = new String(lecturas).replaceAll("<h1>","").replaceAll("<h2>","").replaceAll("</h2>"," ").replaceAll("<h3>","").replaceAll("</h3>"," ").replaceAll("<p>","").replaceAll("</p>"," ").replaceAll("<h2>","").replaceAll("R/","").replaceAll("<br/>","").replaceAll("<a name=","");
 								myFunction(lecturas)
 							};
+						}
+	
 
 							function myFunction(lecturas) {
 								const synth = window.speechSynthesis;
@@ -134,10 +271,34 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 								}	
 							}
 
-						if (day.match(/domingo/)) {
+						if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today))  || day_today_short_1.match(/01-01/) || fecha_calendar_1.match(/01-01/)) {
+							if (fecha_format_2.match("undefined-undefined")) {
+								fecha_calendar_1 = day_today_short;
+								var dateParts = fecha_calendar_1.split("-");
+								// Obtener los componentes de la fecha
+								var dia = dateParts[0]
+								var mes = dateParts[1]
+								var anio = dateParts[2]
+								// Crear una cadena de fecha en el formato deseado
+								var fecha_format_2 = dia + "-" + mes + "-" + anio;
 
-							reflexion_domingos = "https://www.dominicos.org/predicacion/homilia/"+fechaFinal+"/pautas/";
 
+							}else{
+								fecha_calendar_1 = document.getElementById("fecha_calendar").value;
+								var dateParts = fecha_calendar_1.split("-");
+								// Obtener los componentes de la fecha
+								var dia = dateParts[2]
+								var mes = dateParts[1]
+								var anio = dateParts[0]
+								// Crear una cadena de fecha en el formato deseado
+								var fecha_format_2 = dia + "-" + mes + "-" + anio;
+							}
+							
+	
+
+
+							reflexion_domingos = "https://www.dominicos.org/predicacion/homilia/"+fecha_format_2+"/pautas/";
+							
 							$.ajax({
 								url: reflexion_domingos,
 								dataType: 'text',
@@ -146,8 +307,7 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 								data: {
 								},
 								success: function (result1) {
-									console.log(result1)
-									let reflexion_match = result1.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/)[0]; 
+									let reflexion_match = result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy(.*?)\<footer class=\"autor\"/)[0]; 
 									reflexion = reflexion_match.slice(0,-1); 
 									document.getElementById("reflexion").innerHTML = reflexion;
 								},
@@ -166,10 +326,12 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 						console.log("error");
 					}
 				});
+		}
 
 			</script>
 			
 <style>
+
 
 #evangelio, #reflexion{
 	background-color: white;
@@ -179,9 +341,7 @@ var fechaFinal = fechaFormateada.replace(/\//g, "-");
 	font-family: Verdana, sans-serif;
 	/* font-size: 5vw; */
 	line-height: 1.2em;
-
 	text-align: center;
-
 }
 
 *

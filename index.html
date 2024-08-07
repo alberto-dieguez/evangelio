@@ -123,7 +123,7 @@
 			const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
 			const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", opciones);
 			var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
-			lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
+			lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
 			putLecturas(lecturas_url);
 		}
 
@@ -136,7 +136,7 @@
 			// var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
 			selectDate_1 = fechaFinal_1;
 			selectDate_2 = day_today_short;
-			lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/" + day_today_short + "/";
+			lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/" + day_today_short + "/";
 			putLecturas(lecturas_url);
 		}
 
@@ -216,17 +216,17 @@
 				semana_santa = false;
 			}
 			if (fecha_calendar_1 != "" && esDomingo(fecha_format_2)) {
-				lecturas_url = "https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
+				lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
 				putLecturas(lecturas_url);
 			}
 
 
 			if (fecha_calendar_1 != "" && !esDomingo(fecha_format_2)) {
 				if (fecha_calendar_1.match(/01-01/) || semana_santa) {
-					lecturas_url = "https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
+					lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
 					putLecturas(lecturas_url);
 				}
-				lecturas_url = "https://www.dominicos.org/predicacion/evangelio-del-dia/" + fecha_format_2 + "/";
+				lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/" + fecha_format_2 + "/";
 				putLecturas(lecturas_url);
 			}
 
@@ -345,7 +345,7 @@
 							var fecha_format_2 = dia + "-" + mes + "-" + anio;
 						}
 
-						reflexion_domingos = "https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/pautas/";
+						reflexion_domingos = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/pautas/";
 
 						$.ajax({
 							url: reflexion_domingos,

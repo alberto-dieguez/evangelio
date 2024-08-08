@@ -222,7 +222,7 @@
 
 
 			if (fecha_calendar_1 != "" && !esDomingo(fecha_format_2)) {
-				if (fecha_calendar_1.match(/01-01/) || fecha_calendar_1.match(/08-08/) || semana_santa) {
+				if (fecha_calendar_1.match(/01-01/) || fecha_calendar_1.match(/08-08/) || fecha_calendar_1.match(/08-15/) || semana_santa) {
 					lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
 					putLecturas(lecturas_url);
 				}
@@ -266,7 +266,8 @@
 
 					evengelio_nombre = evengelio_nombre_match.slice(0, -1);
 					document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || semana_santa) {						let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || semana_santa) {
+						let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];	
 						lecturas = lecturas_match1.slice(0, -1);
 						document.getElementById("evangelio").innerHTML = lecturas;
 					} else {
@@ -322,7 +323,8 @@
 						}
 					}
 
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || semana_santa) {						if (fecha_format_2.match("undefined-undefined")) {
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/15-08/) || semana_santa) {						
+						if (fecha_format_2.match("undefined-undefined")) {
 							fecha_calendar_1 = day_today_short;
 							var dateParts = fecha_calendar_1.split("-");
 							// Obtener los componentes de la fecha

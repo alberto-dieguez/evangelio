@@ -117,13 +117,13 @@
 			semana_santa = false;
 		}
 
-		if ((selectDate == "" && esDomingo(day_today)) || semana_santa || day_today.match(/8-8-/) || day_today.match(/1-1-/) || day_today.match(/15-8-/)) {
+		if ((selectDate == "" && esDomingo(day_today)) || semana_santa || day_today.match(/8-8-/) || day_today.match(/1-1-/) || day_today.match(/15-8-/) || day_today.match(/1-11-/)) {
 			const fecha_pattern_1 = new Date(day_today_short);
 			// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
 			const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
 			const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", opciones);
 			var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
-			lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
+			lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
 			putLecturas(lecturas_url);
 		}
 
@@ -136,7 +136,7 @@
 			// var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
 			selectDate_1 = fechaFinal_1;
 			selectDate_2 = day_today_short;
-			lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/" + day_today_short + "/";
+			lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/" + day_today_short + "/";
 			putLecturas(lecturas_url);
 		}
 
@@ -216,20 +216,21 @@
 				semana_santa = false;
 			}
 			if (fecha_calendar_1 != "" && esDomingo(fecha_format_2)) {
-				lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
+				lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
 				putLecturas(lecturas_url);
 			}
 
 
 			if (fecha_calendar_1 != "" && !esDomingo(fecha_format_2)) {
-				if (fecha_calendar_1.match(/01-01/) || fecha_calendar_1.match(/08-08/) || fecha_calendar_1.match(/08-15/) || semana_santa) {
-					lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
+				if (fecha_calendar_1.match(/01-01/) || fecha_calendar_1.match(/08-08/) || fecha_calendar_1.match(/08-15/) || fecha_calendar_1.match(/11-01/) || semana_santa) {
+					lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
 					putLecturas(lecturas_url);
-				}
-				lecturas_url = "https://corsproxy.io/?https://www.dominicos.org/predicacion/evangelio-del-dia/" + fecha_format_2 + "/";
-				putLecturas(lecturas_url);
-			}
+				}else{
 
+				lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/" + fecha_format_2 + "/";
+				putLecturas(lecturas_url);
+				}
+			}
 		}
 
 
@@ -266,7 +267,7 @@
 
 					evengelio_nombre = evengelio_nombre_match.slice(0, -1);
 					document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || semana_santa) {
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/)  || semana_santa) {
 						let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];	
 						lecturas = lecturas_match1.slice(0, -1);
 						document.getElementById("evangelio").innerHTML = lecturas;
@@ -323,7 +324,7 @@
 						}
 					}
 
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || semana_santa) {						
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/)  || semana_santa) {						
 						if (fecha_format_2.match("undefined-undefined")) {
 							fecha_calendar_1 = day_today_short;
 							var dateParts = fecha_calendar_1.split("-");
@@ -345,7 +346,7 @@
 							var fecha_format_2 = dia + "-" + mes + "-" + anio;
 						}
 
-						reflexion_domingos = "https://corsproxy.io/?https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/pautas/";
+						reflexion_domingos = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/pautas/";
 
 						$.ajax({
 							url: reflexion_domingos,
@@ -410,7 +411,7 @@
 
 			#evangelio,
 			#reflexion {
-				font-size: 17px;
+				font-size: 19px;
 			}
 		}
 

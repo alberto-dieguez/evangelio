@@ -243,7 +243,6 @@
 				data: {
 				},
 				success: function (result) {
-
 					fecha_calendar_1 = document.getElementById("fecha_calendar").value;
 					var dateParts = fecha_calendar_1.split("-");
 					// Obtener los componentes de la fecha
@@ -258,9 +257,11 @@
 					} else {
 						hayfecha = false
 					}
-
+		
 					if (result.match(/[Ee]vangelio según :(.*?)\"/) != null) {
 						evengelio_nombre_match = result.match(/[Ee]vangelio según(.*?)\"/)[0].replace(", lecturas del día y reflexión", "");
+					} else if (result.match(/Comienzo del santo [Ee]vangelio según(.*?)\"/)) {
+						evengelio_nombre_match = result.match(/Comienzo del santo [Ee]vangelio según(.*?)\"/)[0];
 					} else {
 						evengelio_nombre_match = result.match(/Lectura del santo [Ee]vangelio según(.*?)\"/)[0];
 					}

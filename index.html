@@ -116,8 +116,8 @@
 		} else {
 			semana_santa = false;
 		}
-
-		if ((selectDate == "" && esDomingo(day_today)) || semana_santa || day_today.match(/8-8-/) || day_today.match(/1-1-/) || day_today.match(/15-8-/) || day_today.match(/1-11-/) || day_today.match(/24-11-/) || day_today.match(/25-11-/) || day_today.match(/6-1-/)) {
+		
+		if ((selectDate == "" && esDomingo(day_today)) || semana_santa || day_today.match(/8-8-/) || day_today.match(/^01-01-\d{4}$/) || day_today.match(/15-8-/) || day_today.match(/1-11-/) || day_today.match(/24-11-/) || day_today.match(/25-11-/) || day_today.match(/6-1-/)) {
 			const fecha_pattern_1 = new Date(day_today_short);
 			// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
 			const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -260,10 +260,9 @@
 					} else {
 						evengelio_nombre_match = result.match(/Lectura del santo [Ee]vangelio según(.*?)\"/)[0];
 					}
-
 					evengelio_nombre = evengelio_nombre_match.slice(0, -1);
 					document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/^1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/^8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/^1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/^6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {
 						let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];	
 						lecturas = lecturas_match1.slice(0, -1);
 						document.getElementById("evangelio").innerHTML = lecturas;
@@ -320,7 +319,7 @@
 						}
 					}
 
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {						
+					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/^1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/^8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/^1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/^6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {						
 						if (fecha_format_2.match("undefined-undefined")) {
 							fecha_calendar_1 = day_today_short;
 							var dateParts = fecha_calendar_1.split("-");

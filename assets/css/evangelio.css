@@ -1,0 +1,619 @@
+/* ====================================
+   Evangelio del Día - Refined Design
+   ==================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  /* ===== DOMAIN TOKENS ===== */
+
+  /* Sacred Purple - warm burgundy, like vestments */
+  --vestment: #5D3A5A;
+  --vestment-dark: #452947;
+  --vestment-light: #8B6B88;
+
+  /* Illumination - muted gold leaf */
+  --illumination: #C4A661;
+  --illumination-dark: #A68B4C;
+  --illumination-pale: #E8D9B8;
+
+  /* Ink on Parchment */
+  --ink: #2B2520;
+  --ink-secondary: #5C544D;
+  --ink-tertiary: #8C837A;
+  --ink-muted: #B8B0A8;
+
+  /* Parchment surfaces - warm elevation */
+  --parchment-base: #F5F1EB;
+  --parchment-lift: #FAF8F4;
+  --parchment-card: #FEFDFB;
+
+  /* Semantic */
+  --grace: #5A7F5E;
+  --warning: #C87F3A;
+  --mercy: #B84444;
+
+  /* Separation - warm, subtle */
+  --border-whisper: rgba(91, 78, 68, 0.08);
+  --border-soft: rgba(91, 78, 68, 0.12);
+  --border-present: rgba(91, 78, 68, 0.18);
+  --border-emphasis: rgba(93, 58, 90, 0.25);
+
+  /* Shadow - only for true elevation */
+  --shadow-lift: 0 1px 3px rgba(43, 37, 32, 0.04), 0 1px 2px rgba(43, 37, 32, 0.02);
+  --shadow-modal: 0 8px 24px rgba(43, 37, 32, 0.12), 0 2px 6px rgba(43, 37, 32, 0.08);
+
+  /* ===== SPACING SCALE ===== */
+  --space-micro: 8px;
+  --space-component: 16px;
+  --space-section: 32px;
+  --space-major: 48px;
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-sacred: 'Crimson Pro', serif;
+  --font-interface: 'Inter', -apple-system, system-ui, sans-serif;
+
+  /* ===== INTERACTION ===== */
+  --transition-quick: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ====================================
+   BASE
+   ==================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-interface);
+  background: var(--parchment-base);
+  color: var(--ink);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ====================================
+   TYPOGRAPHY HIERARCHY
+   ==================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sacred);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+/* Sacred text gets special treatment */
+#evangelio,
+#reflexion {
+  font-family: var(--font-sacred);
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: var(--ink);
+  font-weight: 400;
+  text-align: center;
+}
+
+#evangelio h2,
+#reflexion h2 {
+  color: var(--vestment);
+  font-weight: 700;
+  margin: var(--space-major) 0 var(--space-section);
+  font-size: 1.75rem;
+  letter-spacing: -0.01em;
+}
+
+#evangelio h3,
+#reflexion h3 {
+  color: var(--vestment-dark);
+  font-weight: 600;
+  margin: var(--space-section) 0 var(--space-component);
+  font-size: 1.375rem;
+}
+
+#evangelio p,
+#reflexion p {
+  margin: var(--space-component) 0;
+}
+
+#evangelio strong,
+#reflexion strong {
+  color: var(--vestment);
+  font-weight: 600;
+}
+
+#evangelio li,
+#reflexion li {
+  margin: var(--space-component) 0;
+  list-style-position: inside;
+  text-align: center;
+}
+
+/* ====================================
+   HEADER
+   ==================================== */
+
+.intro {
+  background: linear-gradient(135deg, var(--vestment) 0%, var(--vestment-dark) 100%);
+  color: var(--parchment-card);
+  padding: var(--space-major) var(--space-section);
+  margin-bottom: var(--space-section);
+  border-bottom: 1px solid var(--border-emphasis);
+  text-align: center;
+}
+
+.intro header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: var(--space-component);
+  letter-spacing: -0.02em;
+  color: var(--parchment-card);
+}
+
+.intro header h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: var(--space-micro);
+  opacity: 0.9;
+  font-family: var(--font-interface);
+  color: var(--parchment-card);
+}
+
+.intro header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-top: var(--space-component);
+  color: var(--illumination-pale);
+  letter-spacing: -0.01em;
+}
+
+/* ====================================
+   WRAPPER
+   ==================================== */
+
+#wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 var(--space-component) var(--space-major);
+}
+
+/* ====================================
+   ROSARIO SECTION
+   ==================================== */
+
+#containerrosario1,
+#containerrosario2 {
+  margin: var(--space-section) 0;
+}
+
+#btnmostrarrosario {
+  width: 100%;
+  background: var(--vestment);
+  color: var(--parchment-card);
+  border: none;
+  border-radius: 8px;
+  padding: var(--space-component) var(--space-section);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-interface);
+  letter-spacing: -0.01em;
+}
+
+#btnmostrarrosario:hover {
+  background: var(--vestment-dark);
+  transform: translateY(-1px);
+}
+
+#btnmostrarrosario:active {
+  transform: translateY(0);
+}
+
+#containerrosario2 {
+  display: none;
+  gap: var(--space-component);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#containerrosario2.active {
+  display: flex;
+}
+
+/* Rosary day selector - signature element */
+#btnrosario {
+  width: 52px;
+  height: 52px;
+  background: var(--parchment-card);
+  color: var(--vestment);
+  border: 2px solid var(--border-present);
+  border-radius: 50%;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-sacred);
+  position: relative;
+}
+
+#btnrosario:hover {
+  background: var(--vestment);
+  color: var(--parchment-card);
+  border-color: var(--vestment);
+  transform: scale(1.08);
+}
+
+#btnrosario:active {
+  transform: scale(1);
+}
+
+/* ====================================
+   SEARCH SECTION
+   ==================================== */
+
+#first {
+  background: var(--parchment-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  margin: var(--space-section) 0;
+  padding: var(--space-section);
+  display: flex;
+  gap: var(--space-component);
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#fecha_calendar {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+  padding: 14px var(--space-component);
+  border: 1px solid var(--border-present);
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-family: var(--font-interface);
+  color: var(--ink);
+  background: var(--parchment-lift);
+  transition: all var(--transition-quick);
+  text-align: center;
+}
+
+#fecha_calendar:hover {
+  border-color: var(--vestment-light);
+}
+
+#fecha_calendar:focus {
+  outline: none;
+  border-color: var(--vestment);
+  background: var(--parchment-card);
+  box-shadow: 0 0 0 3px rgba(93, 58, 90, 0.08);
+}
+
+#first button {
+  padding: 14px var(--space-section);
+  background: var(--illumination);
+  color: var(--ink);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-smooth);
+  font-family: var(--font-interface);
+  letter-spacing: -0.01em;
+}
+
+#first button:hover {
+  background: var(--illumination-dark);
+  transform: translateY(-1px);
+}
+
+#first button:active {
+  transform: translateY(0);
+}
+
+/* ====================================
+   AUDIO CONTROLS
+   ==================================== */
+
+#audio-controls {
+  background: var(--parchment-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  margin: var(--space-section) 0;
+  padding: var(--space-section);
+  text-align: center;
+}
+
+#btn button,
+#btnp button,
+.audio-btn {
+  padding: 12px var(--space-section);
+  margin: 0 var(--space-micro);
+  background: var(--parchment-card);
+  color: var(--vestment);
+  border: 1px solid var(--border-present);
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-quick);
+  font-family: var(--font-interface);
+}
+
+#btn button:hover,
+#btnp button:hover,
+.audio-btn:hover {
+  background: var(--vestment);
+  color: var(--parchment-card);
+  border-color: var(--vestment);
+  transform: translateY(-1px);
+}
+
+#btn button:active,
+#btnp button:active,
+.audio-btn:active {
+  transform: translateY(0);
+}
+
+.audio-btn.secondary {
+  border-color: var(--illumination);
+  color: var(--illumination-dark);
+}
+
+.audio-btn.secondary:hover {
+  background: var(--illumination);
+  color: var(--ink);
+  border-color: var(--illumination);
+}
+
+/* ====================================
+   CONTENT CARDS
+   ==================================== */
+
+.md-card {
+  background: var(--parchment-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  margin: var(--space-section) 0;
+  overflow: hidden;
+}
+
+.md-card-content {
+  padding: var(--space-major) var(--space-section);
+}
+
+/* ====================================
+   SECTION TITLES
+   ==================================== */
+
+.section-title {
+  background: var(--illumination);
+  color: var(--ink);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  margin: var(--space-major) 0 var(--space-section);
+  padding: var(--space-section);
+  text-align: center;
+}
+
+.section-title h2 {
+  font-size: 1.5rem !important;
+  font-weight: 600;
+  margin: 0 !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.01em;
+}
+
+#test {
+  text-align: center;
+  margin: var(--space-major) 0 var(--space-section);
+  padding: var(--space-section);
+  background: var(--parchment-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-whisper);
+}
+
+#test h1 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--ink-tertiary);
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+/* ====================================
+   LOADING OVERLAY
+   ==================================== */
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(93, 58, 90, 0.96);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all var(--transition-smooth);
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--illumination-pale);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: var(--parchment-card);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: var(--space-section);
+  letter-spacing: -0.01em;
+}
+
+/* ====================================
+   SNACKBAR
+   ==================================== */
+
+.snackbar {
+  position: fixed;
+  bottom: var(--space-section);
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--ink);
+  color: var(--parchment-card);
+  padding: var(--space-component) var(--space-section);
+  border-radius: 8px;
+  box-shadow: var(--shadow-modal);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  z-index: 10000;
+  opacity: 0;
+  transition: all var(--transition-smooth);
+  max-width: 90%;
+  text-align: center;
+}
+
+.snackbar.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.snackbar.error {
+  background: var(--mercy);
+}
+
+.snackbar.success {
+  background: var(--grace);
+}
+
+.snackbar.warning {
+  background: var(--warning);
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+
+  .intro {
+    padding: var(--space-section) var(--space-component);
+  }
+
+  .intro header h1 {
+    font-size: 1.75rem;
+  }
+
+  .intro header h2 {
+    font-size: 1rem;
+  }
+
+  .intro header h3 {
+    font-size: 1.125rem;
+  }
+
+  #first {
+    flex-direction: column;
+    padding: var(--space-component);
+  }
+
+  #fecha_calendar,
+  #first button {
+    width: 100%;
+  }
+
+  .md-card-content {
+    padding: var(--space-section) var(--space-component);
+  }
+
+  /* Gospel text stays readable on mobile */
+  #evangelio,
+  #reflexion {
+    font-size: 1.125rem;
+    line-height: 1.85;
+  }
+
+  #btnrosario {
+    width: 50px;
+    height: 50px;
+    font-size: 1.0625rem;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro header h1 {
+    font-size: 1.5rem;
+  }
+
+  #evangelio h2,
+  #reflexion h2 {
+    font-size: 1.5rem;
+  }
+
+  #evangelio h3,
+  #reflexion h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ====================================
+   UTILITIES
+   ==================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}

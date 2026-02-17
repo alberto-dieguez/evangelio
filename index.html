@@ -1,442 +1,149 @@
 <!DOCTYPE HTML>
-
 <html translate="no">
 
 <head>
-	<title>Evangelio diário</title>
+	<title>Evangelio Diario</title>
 	<meta name="google" content="notranslate">
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<meta name="description" content="" />
-	<meta name="keywords" content="evangelio" />
+	<meta name="description" content="Evangelio del día - Lecturas diarias y reflexión" />
+	<meta name="keywords" content="evangelio, lecturas, reflexión, rosario" />
 	<link rel="icon" type="image/x-icon" href="images/evangelio.png">
-	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="assets/css/evangelio.css" />
 </head>
 
-<body class="is-preload">
-	<div id="containerrosario1">
-		<button id="btnmostrarrosario" style="width: 100%;background-color: rgb(243, 243, 243);"
-			onclick="mostrarrosario()">Rosario</button>
-	</div>
-	<div id="containerrosario2">
-		<button id="btnrosario" onclick="rosarioGozoso()">L</button>
-		<button id="btnrosario" onclick="rosarioDoloroso()">M</button>
-		<button id="btnrosario" onclick="rosarioGlorioso()">X</button>
-		<button id="btnrosario" onclick="rosarioLuminoso()">J</button>
-		<button id="btnrosario" onclick="rosarioDoloroso()">V</button>
-		<button id="btnrosario" onclick="rosarioGozoso()">S</button>
-		<button id="btnrosario" onclick="rosarioGlorioso()">D</button>
-	</div>
+<body>
+
 	<!-- Wrapper -->
 	<div id="wrapper">
-		<!-- Intro -->
+
+		<!-- Header -->
 		<section class="intro">
-			<header style="text-align: center;">
-				<h1>Evangelio</h1>
+			<header>
+				<h1>Evangelio del Día</h1>
 				<h2 id="date"></h2>
 				<h3 id="evangelio_nombre"></h3>
-				</ul>
 			</header>
 		</section>
-		<!-- Section -->
-		<section id="first"
-			style="display: block;width: 100%;background-color:beige;text-align: center;padding-top: 1%;padding-bottom:1%;">
 
-
-
-
-			<input type="date" id="fecha_calendar" value=""></input><button
-				style="background-color: rgb(243, 243, 243); margin-left: 10%;"
-				onclick="buscarEvangelio()">Buscar</button>
-		</section>
-		<!-- Audio, no se escucha en Android -->
-		<div style="width: 100%;background-color: bisque;text-align: center;"><span id="btn"></span> <span
-				id="btnp"></span></div>
-		<p id="evangelio"></p>
-		<div id="test" style="text-align: center;">
-			<h2 style="color: #e7273a;font-size: 3em;background-color: white;">Reflexión</h2>
+		<!-- Rosario -->
+		<div id="containerrosario1">
+			<button id="btnmostrarrosario" onclick="mostrarrosario()">
+				Santo Rosario
+			</button>
 		</div>
-		<p id="reflexion"></p>
-		<div id="test" style="text-align: center;">
-			<h1>Fin</h1>
+
+		<div id="containerrosario2">
+			<button id="btnrosario" onclick="rosarioGozoso()" title="Lunes y Sábado - Misterios Gozosos">L</button>
+			<button id="btnrosario" onclick="rosarioDoloroso()" title="Martes y Viernes - Misterios Dolorosos">M</button>
+			<button id="btnrosario" onclick="rosarioGlorioso()" title="Miércoles y Domingo - Misterios Gloriosos">X</button>
+			<button id="btnrosario" onclick="rosarioLuminoso()" title="Jueves - Misterios Luminosos">J</button>
+			<button id="btnrosario" onclick="rosarioDoloroso()" title="Martes y Viernes - Misterios Dolorosos">V</button>
+			<button id="btnrosario" onclick="rosarioGozoso()" title="Lunes y Sábado - Misterios Gozosos">S</button>
+			<button id="btnrosario" onclick="rosarioGlorioso()" title="Miércoles y Domingo - Misterios Gloriosos">D</button>
+		</div>
+
+		<!-- Búsqueda -->
+		<section id="first">
+			<input
+				type="date"
+				id="fecha_calendar"
+				placeholder="Selecciona una fecha"
+			/>
+			<button onclick="buscarEvangelio()">
+				Buscar
+			</button>
+		</section>
+
+		<!-- Audio -->
+		<div id="audio-controls">
+			<span id="btn"></span>
+			<span id="btnp"></span>
+		</div>
+
+		<!-- Evangelio -->
+		<div class="md-card fade-in">
+			<div class="md-card-content">
+				<p id="evangelio"></p>
+			</div>
+		</div>
+
+		<!-- Reflexión -->
+		<div class="section-title">
+			<h2>Reflexión del Día</h2>
+		</div>
+
+		<div class="md-card fade-in">
+			<div class="md-card-content">
+				<p id="reflexion"></p>
+			</div>
+		</div>
+
+		<!-- Fin -->
+		<div id="test">
+			<h1>† † †</h1>
 		</div>
 
 	</div>
-	<!-- Scripts -->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-	<script src="assets/js/rosario.js"></script>
 
+	<!-- Loading -->
+	<div id="loadingOverlay" class="loading-overlay">
+		<div class="loading-spinner"></div>
+		<p class="loading-text">Cargando...</p>
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/rosario.js"></script>
+	<script src="assets/js/evangelio.js"></script>
 
 	<script>
-		// Definir la función esDomingo
-		function esDomingo(fecha_format) {
+		// Toggle rosario
+		function mostrarrosario() {
+			document.getElementById("containerrosario2").classList.toggle("active");
+		}
 
-			// Crear un objeto Date a partir de la cadena de fecha
-			var dateParts = fecha_format.split("-");
-			// Obtener los componentes de la fecha
-			var dia = dateParts[0]
-			var mes = dateParts[1]
-			var anio = dateParts[2]
+		// Loading functions
+		function showLoading() {
+			document.getElementById("loadingOverlay").classList.add("active");
+		}
 
-			// Crear una cadena de fecha en el formato deseado
-			var fecha_format_1 = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-			if (fecha_format_1 instanceof Date && !isNaN(fecha_format_1)) {
-				// Obtener el día de la semana como un número
-				var dia = fecha_format_1.getDay();
-				// Devolver el valor booleano de si el día es domingo o no
-				return dia == 0;
-			} else {
-				// Devolver un mensaje de error si el parámetro no es una fecha válida
-				return "El parámetro no es una fecha válida";
+		function hideLoading() {
+			document.getElementById("loadingOverlay").classList.remove("active");
+		}
+
+		// Snackbar
+		function showSnackbar(message, type = 'info') {
+			const existing = document.querySelector('.snackbar');
+			if (existing) existing.remove();
+
+			const snackbar = document.createElement('div');
+			snackbar.className = `snackbar ${type}`;
+			snackbar.textContent = message;
+			document.body.appendChild(snackbar);
+
+			setTimeout(() => snackbar.classList.add('show'), 100);
+			setTimeout(() => {
+				snackbar.classList.remove('show');
+				setTimeout(() => snackbar.remove(), 300);
+			}, 4000);
+		}
+
+		// Update date on load
+		document.addEventListener('DOMContentLoaded', function() {
+			const dateElement = document.getElementById('date');
+			if (dateElement && !dateElement.textContent) {
+				const today = new Date();
+				const options = {
+					weekday: 'long',
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+					timeZone: 'Europe/Madrid'
+				};
+				dateElement.textContent = today.toLocaleDateString('es-ES', options);
 			}
-		}
-
-		// const day_today = document.getElementById("date").innerHTML = new Date().toLocaleDateString('es-es', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
-		const day_today_short_1 = (new Date()).toLocaleDateString("es-ES", { timeZone: 'Europe/Madrid' }).split('T')[0];
-		day_today_short = day_today_short_1.replaceAll("/", "-");
-		// var fecha_calendar = document.getElementById("fecha_calendar");
-		var day_today_1 = new Date().toLocaleDateString("es-ES", { timeZone: 'Europe/Madrid' });
-		var day_today = day_today_1.replaceAll("/", "-");
-		var selectDate = document.getElementById("fecha_calendar").value;
-		var fechaActual = new Date();
-
-		// Calcular Jueves Santo y Viernes Santo para el año actual
-		var juevesSantoFormateado = calcularJuevesSanto(fechaActual.getFullYear()).toLocaleDateString().replaceAll("/", "-");
-		var viernesSantoFormateado = calcularViernesSanto(fechaActual.getFullYear()).toLocaleDateString().replaceAll("/", "-");
-		var SabadoSantoFormateado = calcularSabadoSanto(fechaActual.getFullYear()).toLocaleDateString().replaceAll("/", "-");
-
-
-		if (day_today == juevesSantoFormateado || day_today == viernesSantoFormateado || day_today == SabadoSantoFormateado || selectDate == juevesSantoFormateado || selectDate == viernesSantoFormateado || selectDate == SabadoSantoFormateado) {
-			semana_santa = true;
-		} else {
-			semana_santa = false;
-		}
-		
-		if ((selectDate == "" && esDomingo(day_today)) || semana_santa || day_today.match(/8-8-/) || day_today.match(/^01-01-\d{4}$/) || day_today.match(/15-8-/) || day_today.match(/1-11-/) || day_today.match(/24-11-/) || day_today.match(/25-11-/) || day_today.match(/6-1-/)) {
-			const fecha_pattern_1 = new Date(day_today_short);
-			// Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
-			const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
-			const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", opciones);
-			var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
-			lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/hoy/lecturas/";
-			putLecturas(lecturas_url);
-		}
-
-		if (selectDate == "" && !esDomingo(day_today) && !semana_santa) {
-			// const fecha_pattern_1 = new Date(day_today_short);
-			// console.log(day_today_short);
-			// // Usar el método toLocaleDateString con el idioma "es-ES" y las opciones adecuadas
-			// const opciones = { day: "2-digit", month: "2-digit", year: "numeric" };
-			// const fechaFormateada_1 = fecha_pattern_1.toLocaleDateString("es-ES", 'es-ES', { timeZone: 'Europe/Madrid' });
-			// var fechaFinal_1 = fechaFormateada_1.replace(/\//g, "-");
-			selectDate_1 = fechaFinal_1;
-			selectDate_2 = day_today_short;
-			lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/" + day_today_short + "/";
-			putLecturas(lecturas_url);
-		}
-
-		function calcularFechaPascua(anio) {
-			var a = anio % 19;
-			var b = Math.floor(anio / 100);
-			var c = anio % 100;
-			var d = Math.floor(b / 4);
-			var e = b % 4;
-			var f = Math.floor((b + 8) / 25);
-			var g = Math.floor((b - f + 1) / 3);
-			var h = (19 * a + b - d - g + 15) % 30;
-			var i = Math.floor(c / 4);
-			var k = c % 4;
-			var l = (32 + 2 * e + 2 * i - h - k) % 7;
-			var m = Math.floor((a + 11 * h + 22 * l) / 451);
-			var n0 = (h + l + 7 * m + 114);
-			var n = Math.floor(n0 / 31) - 1;
-			var p = n0 % 31 + 1;
-			var dia = p;
-			var mes = n;
-			return new Date(anio, mes, dia);
-		}
-
-		function calcularJuevesSanto(anio) {
-			var fechaPascua = calcularFechaPascua(anio);
-			var juevesSanto = new Date(fechaPascua);
-			juevesSanto.setDate(fechaPascua.getDate() - 3); // Restar 3 días para obtener Jueves Santo
-			return juevesSanto;
-		}
-
-		function calcularViernesSanto(anio) {
-			var fechaPascua = calcularFechaPascua(anio);
-			var viernesSanto = new Date(fechaPascua);
-			viernesSanto.setDate(fechaPascua.getDate() - 2); // Restar 2 días para obtener Viernes Santo
-			return viernesSanto;
-		}
-		function calcularSabadoSanto(anio) {
-			var fechaPascua = calcularFechaPascua(anio);
-			var sabadoSanto = new Date(fechaPascua);
-			sabadoSanto.setDate(fechaPascua.getDate() - 1); // Restar 1 día para obtener Sábado Santo
-			return sabadoSanto;
-		}
-
-		// Función para agregar ceros a la izquierda si es necesario
-		function agregarCeros(numero) {
-			return numero < 10 ? '0' + numero : numero;
-		}
-
-		function buscarEvangelio() {
-
-			fecha_calendar_1 = document.getElementById("fecha_calendar").value;
-			var dateParts = fecha_calendar_1.split("-");
-			// Obtener los componentes de la fecha
-			var dia = dateParts[2]
-			var mes = dateParts[1]
-			var anio = dateParts[0]
-			// Crear una cadena de fecha en el formato deseado
-			var fecha_format_2 = dia + "-" + mes + "-" + anio;
-			var fechaActual = new Date();
-			// Calcular Jueves Santo y Viernes Santo para el año actual
-			var juevesSantoActual = calcularJuevesSanto(fechaActual.getFullYear());
-			var juevesSantoFormateado = agregarCeros(juevesSantoActual.getDate()) + '-' + agregarCeros(juevesSantoActual.getMonth() + 1) + '-' + juevesSantoActual.getFullYear();
-
-			var viernesSantoActual = calcularViernesSanto(fechaActual.getFullYear());
-			var viernesSantoFormateado = agregarCeros(viernesSantoActual.getDate()) + '-' + agregarCeros(viernesSantoActual.getMonth() + 1) + '-' + viernesSantoActual.getFullYear();
-
-
-			var SabadoSantoActual = calcularSabadoSanto(fechaActual.getFullYear());
-			var SabadoSantoFormateado = agregarCeros(SabadoSantoActual.getDate()) + '-' + agregarCeros(SabadoSantoActual.getMonth() + 1) + '-' + SabadoSantoActual.getFullYear();
-
-			if (fecha_format_2 == juevesSantoFormateado || fecha_format_2 == viernesSantoFormateado || fecha_format_2 == SabadoSantoFormateado) {
-				semana_santa = true;
-			} else {
-				semana_santa = false;
-			}
-			if (fecha_calendar_1 != "" && esDomingo(fecha_format_2)) {
-				lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
-				putLecturas(lecturas_url);
-			}
-
-			if (fecha_calendar_1 != "" && !esDomingo(fecha_format_2)) {
-				if (fecha_calendar_1.match(/01-01/) || fecha_calendar_1.match(/08-08/) || fecha_calendar_1.match(/08-15/) || fecha_calendar_1.match(/11-01/) || fecha_calendar_1.match(/12-24/) || fecha_calendar_1.match(/12-25/) ||  fecha_calendar_1.match(/01-06/) || semana_santa) {
-					lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/lecturas/";
-					putLecturas(lecturas_url);
-				}else{
-				lecturas_url = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/evangelio-del-dia/" + fecha_format_2 + "/";
-				putLecturas(lecturas_url);
-				}
-			}
-		}
-
-		function putLecturas(lecturas_url) {
-			$.ajax({
-				url: lecturas_url,
-				dataType: 'text',
-				type: "GET",
-				cache: true,
-				data: {
-				},
-				success: function (result) {
-					fecha_calendar_1 = document.getElementById("fecha_calendar").value;
-					var dateParts = fecha_calendar_1.split("-");
-					// Obtener los componentes de la fecha
-					var dia = dateParts[2]
-					var mes = dateParts[1]
-					var anio = dateParts[0]
-					// Crear una cadena de fecha en el formato deseado
-					var fecha_format_2 = dia + "-" + mes + "-" + anio;
-
-					if ((fecha_calendar_1 && esDomingo(fecha_format_2))) {
-						hayfecha = esDomingo(fecha_calendar_1);
-					} else {
-						hayfecha = false
-					}
-		
-					if (result.match(/[Ee]vangelio según :(.*?)\"/) != null) {
-						evengelio_nombre_match = result.match(/[Ee]vangelio según(.*?)\"/)[0].replace(", lecturas del día y reflexión", "");
-					} else if (result.match(/Comienzo del santo [Ee]vangelio según(.*?)\"/)) {
-						evengelio_nombre_match = result.match(/Comienzo del santo [Ee]vangelio según(.*?)\"/)[0];
-					} else {
-						evengelio_nombre_match = result.match(/Lectura del santo [Ee]vangelio según(.*?)\"/)[0];
-					}
-					evengelio_nombre = evengelio_nombre_match.slice(0, -1);
-					document.getElementById("evangelio_nombre").innerHTML = evengelio_nombre;
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/^1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/^8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/^1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/^6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {
-						let lecturas_match1 = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<asid/)[0];	
-						lecturas = lecturas_match1.slice(0, -1);
-						document.getElementById("evangelio").innerHTML = lecturas;
-					} else {
-						let lecturas_match = result.match(/\<h2\>Primera lectura(.*?)\<\/p\>\<p\>\<\/p\>\<a name=\"/)[0];
-						lecturas = lecturas_match.slice(0, -1);
-						document.getElementById("evangelio").innerHTML = lecturas;
-					}
-					if (!document.getElementById("btn").innerHTML.match(/Escuchar/)) {
-						//Escuchar Lectura
-						var x = document.createElement("BUTTON");
-						var t = document.createTextNode("Escuchar");
-						var y = document.createTextNode("Pausar");
-						x.style.backgroundColor = "#f3f3f3";
-						x.appendChild(t);
-						btn = document.getElementById("btn");
-
-						btn.appendChild(x);
-						x.onclick = function () {
-							lecturas_no_tag = new String(lecturas).replaceAll("<h1>", "").replaceAll("<h2>", "").replaceAll("</h2>", " ").replaceAll("<h3>", "").replaceAll("</h3>", " ").replaceAll("<p>", "").replaceAll("</p>", " ").replaceAll("<h2>", "").replaceAll("R/", "").replaceAll("<br/>", "").replaceAll("<a name=", "");
-							myFunction(lecturas)
-						};
-					}
-
-					function myFunction(lecturas) {
-						const synth = window.speechSynthesis;
-						const utterThis = new SpeechSynthesisUtterance(lecturas_no_tag);
-						utterThis.lang = 'es-ES';
-						synth.speak(utterThis);
-						if (!document.getElementById("btn").innerHTML.match(/Pausar/)) {
-							x.appendChild(y);
-							x.removeChild(t);
-							synth.resume();
-
-							if (document.getElementById("btnp").innerHTML.match(/Iniciar/)) {
-								btnp.style.display = "inline";
-							} else {
-								var p = document.createElement("BUTTON");
-								var o = document.createTextNode("Iniciar reproducción");
-								p.style.backgroundColor = "#f3f3f3";
-								p.appendChild(o);
-								btnp = document.getElementById("btnp");
-								btnp.appendChild(p);
-								p.onclick = function () {
-									synth.cancel()
-									synth.speak(utterThis);
-								};
-							}
-						} else {
-							synth.pause()
-							x.appendChild(t);
-							x.removeChild(y);
-							btnp.style.display = "none";
-						}
-					}
-
-					if ((!fecha_format_2.match("undefined-undefined") && esDomingo(fecha_format_2)) || (fecha_format_2.match("undefined-undefined") && esDomingo(day_today)) || (day_today_short_1.match(/^1\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-01/) || (day_today_short_1.match(/^8\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-08/) || (day_today_short_1.match(/15\/8\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/08-15/) || (day_today_short_1.match(/^1\/11\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/11-01/) || (day_today_short_1.match(/24\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-24/) || (day_today_short_1.match(/25\/12\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/12-25/) || (day_today_short_1.match(/^6\/1\//) && fecha_format_2.match("undefined-undefined")) || fecha_calendar_1.match(/01-06/) || semana_santa) {						
-						if (fecha_format_2.match("undefined-undefined")) {
-							fecha_calendar_1 = day_today_short;
-							var dateParts = fecha_calendar_1.split("-");
-							// Obtener los componentes de la fecha
-							var dia = dateParts[0]
-							var mes = dateParts[1]
-							var anio = dateParts[2]
-							// Crear una cadena de fecha en el formato deseado
-							var fecha_format_2 = dia + "-" + mes + "-" + anio;
-
-						} else {
-							fecha_calendar_1 = document.getElementById("fecha_calendar").value;
-							var dateParts = fecha_calendar_1.split("-");
-							// Obtener los componentes de la fecha
-							var dia = dateParts[2]
-							var mes = dateParts[1]
-							var anio = dateParts[0]
-							// Crear una cadena de fecha en el formato deseado
-							var fecha_format_2 = dia + "-" + mes + "-" + anio;
-						}
-
-						reflexion_domingos = "https://corsproxy.io/?url=https://www.dominicos.org/predicacion/homilia/" + fecha_format_2 + "/pautas/";
-
-						$.ajax({
-							url: reflexion_domingos,
-							dataType: 'text',
-							type: "GET",
-							cache: true,
-							data: {
-							},
-							success: function (result1) {
-
-								if (result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy\<\/h2>\<p>Pendiente de publicación\<\/p>/)) {
-									document.getElementById("reflexion").innerHTML = "Aún no está publicada, normalmente se publican con una semana de antelación.";
-								} else {
-									let reflexion_match = result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy([\s\S]*?)\Evangelio de hoy en vídeo/)[0];
-									reflexion = reflexion_match.slice(0, -25);
-									document.getElementById("reflexion").innerHTML = reflexion;
-								}
-
-							},
-							error: function () {
-								console.log("error");
-							}
-						});
-
-					} else {
-
-						if (result.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/) == null) {
-							document.getElementById("reflexion").innerHTML = "Aún no está publicada, normalmente se publican con una semana de antelación.";
-						}
-						else {
-							let reflexion_match = result.match(/\<h2>Reflexión del Evangelio de hoy(.*?)\<footer class=\"autor\"/)[0];
-							reflexion = reflexion_match.slice(0, -1);
-							document.getElementById("reflexion").innerHTML = reflexion;
-						}
-					}
-				},
-				error: function () {
-					console.log("error");
-				}
-			});
-		}
-
-
-
-
+		});
 	</script>
-
-	<style>
-		#evangelio,
-		#reflexion {
-			background-color: white;
-			text-align: center;
-			padding: 15px 5px 5px 5px;
-			color: black;
-			font-family: Verdana, sans-serif;
-			/* font-size: 5vw; */
-			line-height: 1.2em;
-			text-align: center;
-		}
-
-		@media only screen and (max-width: 600px) {
-
-			#evangelio,
-			#reflexion {
-				font-size: 20px;
-			}
-		}
-
-		@media only screen and (min-width: 600px) {
-
-			#evangelio,
-			#reflexion {
-				padding-left: 2%;
-				padding-right: 2%;
-			}
-		}
-
-		#containerrosario1 {
-			display: flex;
-		}
-
-		#containerrosario2 {
-			display: none;
-		}
-
-		#btnrosario {
-			flex-grow: 1;
-			background-color: rgb(243, 243, 243);
-			width: 5px;
-		}
-
-		* html {
-			overflow: scroll !important;
-		}
-	</style>
 
 </body>
 

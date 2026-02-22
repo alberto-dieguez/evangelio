@@ -1,0 +1,24 @@
+{
+  "name": "evangelio",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "jest --verbose",
+    "test:report": "jest --verbose --reporters=default --reporters=jest-html-reporter",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "jest-html-reporter": "^4.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
+  },
+  "jest-html-reporter": {
+    "pageTitle": "Evangelio — Test Results",
+    "outputPath": "tests/report/index.html",
+    "includeFailureMsg": true,
+    "includeConsoleLog": true,
+    "theme": "defaultTheme"
+  }
+}

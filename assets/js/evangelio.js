@@ -226,8 +226,8 @@ function cargarReflexion(fecha_format_2, fecha_calendar_1, result) {
 		if (fecha_format_2.match("undefined-undefined")) {
 			fecha_calendar_1 = day_today_short;
 			var dateParts = fecha_calendar_1.split("-");
-			var dia = dateParts[0];
-			var mes = dateParts[1];
+			var dia = agregarCeros(parseInt(dateParts[0]));
+			var mes = agregarCeros(parseInt(dateParts[1]));
 			var anio = dateParts[2];
 			fecha_format_2 = dia + "-" + mes + "-" + anio;
 		}
@@ -240,9 +240,12 @@ function cargarReflexion(fecha_format_2, fecha_calendar_1, result) {
 				if (result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy\<\/h2>\<p>Pendiente de publicación\<\/p>/)) {
 					document.getElementById("reflexion").innerHTML = "Aún no está publicada, normalmente se publican con una semana de antelación.";
 				} else {
-					let reflexion_match = result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy([\s\S]*?)Evangelio de hoy en vídeo/)[0];
-					var reflexion = reflexion_match.slice(0, -25);
-					document.getElementById("reflexion").innerHTML = reflexion;
+					let reflexion_match = result1.match(/\<h2>Reflexión del [Ee]vangelio de hoy([\s\S]*?)(?=\<h2>Evangelio de hoy en (audio|v[ií]deo))/);
+					if (!reflexion_match) {
+						document.getElementById("reflexion").innerHTML = "Aún no está publicada, normalmente se publican con una semana de antelación.";
+					} else {
+						document.getElementById("reflexion").innerHTML = reflexion_match[0];
+					}
 				}
 			})
 			.catch(error => {
